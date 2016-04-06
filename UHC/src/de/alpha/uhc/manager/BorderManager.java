@@ -18,20 +18,21 @@ public class BorderManager {
 	public static int time;
 
 	public void set() {
-		
-		if(moveable == false) {
+		if(!moveable) {
 			return;
 		}
-		
 		new BukkitRunnable() {
-			
 			@Override
 			public void run() {
-				
 				Bukkit.broadcastMessage(Core.getPrefix() + moved);
 				size = Border.size - moving;
 				Border.changesize(size);
-				for(Player all : Bukkit.getOnlinePlayers()) {
+				for(Player all : Core.getInGamePlayers()) {
+					AScoreboard.updateInGameBorder(all);
+					TitleManager.sendTitle(all, 10, 20, 10, " ", moved);
+				}
+
+				for(Player all : Core.getSpecs()) {
 					AScoreboard.updateInGameBorder(all);
 					TitleManager.sendTitle(all, 10, 20, 10, " ", moved);
 				}

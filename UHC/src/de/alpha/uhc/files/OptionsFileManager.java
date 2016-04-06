@@ -1,5 +1,6 @@
 package de.alpha.uhc.files;
 
+import de.alpha.uhc.aclasses.AGame;
 import org.bukkit.Material;
 
 import de.alpha.border.Border;
@@ -83,7 +84,7 @@ public class OptionsFileManager {
         
         file.setDefault("InGame.give Compass", true);
         file.setDefault("InGame.Compassitem", "compass");
-        file.setDefault("InGame.Compassitemname", "§aPlayertracker");
+        file.setDefault("InGame.Compassitemname", "ï¿½aPlayertracker");
         
         file.setDefault("Status Motd", true);
         
@@ -121,9 +122,7 @@ public class OptionsFileManager {
 		Timer.comMode = file.getBoolean("InGame.give Compass");
 		Timer.comName = file.getColorString("InGame.Compassitemname");
 		Timer.comItem = Material.getMaterial(file.getString("InGame.Compassitem").toUpperCase());
-		
-		GameEndListener.BungeeMode = file.getBoolean("BungeeMode");
-		GameEndListener.BungeeServer = file.getString("BungeeServer");
+
 		GameEndListener.reward = file.getInt("Coins.on Win");
 		GameEndListener.deathreward = file.getInt("Coins.on Death");
 		
@@ -140,18 +139,16 @@ public class OptionsFileManager {
 		Core.prefix = file.getColorString("Prefix");
 		Core.isMySQLActive = file.getBoolean("MySQL");
 		
-		PlayerJoinListener.mpc = file.getInt("Countdown.maximum_Player_Count");
-		PlayerJoinListener.kitItem = Material.getMaterial(file.getString("Kit.item").toUpperCase());
-		PlayerJoinListener.kitName = file.getColorString("Kit.name");
-		PlayerJoinListener.kitMode = file.getBoolean("Kits");
-		PlayerJoinListener.teamName = file.getColorString("Team.Name");
-		PlayerJoinListener.teamItem = Material.getMaterial(file.getString("Team.Item").toUpperCase());
-		PlayerJoinListener.leaveMode = file.getBoolean("Lobby.give leaveitem");
-		PlayerJoinListener.leaveName = file.getColorString("Lobby.Leaveitemname");
-		PlayerJoinListener.leaveItem = Material.getMaterial(file.getString("Lobby.Leaveitem").toUpperCase());
-		PlayerJoinListener.startMode = file.getBoolean("Lobby.give startitem");
-		PlayerJoinListener.startName = file.getColorString("Lobby.Startitemname");
-		PlayerJoinListener.startItem = Material.getMaterial(file.getString("Lobby.Startitem").toUpperCase());
+		AGame.mpc = file.getInt("Countdown.maximum_Player_Count");
+		AGame.kitItem = Material.getMaterial(file.getString("Kit.item").toUpperCase());
+		AGame.kitName = file.getColorString("Kit.name");
+		AGame.kitMode = file.getBoolean("Kits");
+		AGame.teamName = file.getColorString("Team.Name");
+		AGame.teamItem = Material.getMaterial(file.getString("Team.Item").toUpperCase());
+		AGame.leaveName = file.getColorString("Lobby.Leaveitemname");
+		AGame.leaveItem = Material.getMaterial(file.getString("Lobby.Leaveitem").toUpperCase());
+		AGame.startName = file.getColorString("Lobby.Startitemname");
+		AGame.startItem = Material.getMaterial(file.getString("Lobby.Startitem").toUpperCase());
 		
 		SoupListener.boost = file.getDouble("Soup.healthboost");
 		

@@ -72,7 +72,7 @@ public class AScoreboard {
 	private static Objective obj;
 	
 	public static void setLobbyScoreboard(Player p) {
-		if(ShowLobbyScoreboard == false) return;
+		if(ShowLobbyScoreboard) return;
 		
 		int score = 0;
 		
@@ -111,7 +111,7 @@ public class AScoreboard {
 		}
 		
 		if(ShowLobbyPlayercount) {
-			String a = lobbyPlayercount.replace("[playercount]", Integer.toString(Bukkit.getOnlinePlayers().size()));
+			String a = lobbyPlayercount.replace("[playercount]", Integer.toString(Core.getTotalPlayers()));
 			obj.getScore(a).setScore(score);
 			score--;
 		}
@@ -174,7 +174,7 @@ public class AScoreboard {
 	private static int lg;
 	
 	public static void setInGameScoreboard(final Player p) {
-		if(ShowInGameScoreboard == false) return;
+		if(!ShowInGameScoreboard) return;
 		
 		int score = 0;
 		

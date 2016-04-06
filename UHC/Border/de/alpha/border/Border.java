@@ -34,17 +34,16 @@ public class Border {
 	public static void border() {
 		
 		new BukkitRunnable() {
-			
 			@Override
 			public void run() {
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Core.getInGamePlayers()) {
 					if(arena != null && arena.getWorld().getName().equals(p.getWorld().getName())) {
 						if(p.getLocation().distance(arena) >= size) {
 							Vector plV = p.getLocation().toVector();
 							Vector spV = arena.toVector();
 							Vector v = spV.clone().subtract(plV).multiply(2.0 / spV.distance(plV)).setY(0.5);
 							p.setVelocity(v);
-							p.getWorld().playSound(p.getLocation(), Sound.BURP, 1F, 0.8F);
+							p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1F, 0.8F);
 							p.damage(dmg);
 						}
 					} else {
@@ -65,7 +64,7 @@ public class Border {
 			@Override
 			public void run() {
 				
-				for(Player p : Bukkit.getOnlinePlayers()) {
+				for(Player p : Core.getInGamePlayers()) {
 					if(arena != null && arena.getWorld().getName().equals(p.getWorld().getName())) {
 						if(p.getLocation().distance(arena) >= size-15) {
 							Location min = p.getLocation().add(-10, -10, -10);

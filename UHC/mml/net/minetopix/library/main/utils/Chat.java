@@ -2,6 +2,7 @@ package net.minetopix.library.main.utils;
 
 import java.util.ArrayList;
 
+import de.alpha.uhc.Core;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,7 +19,10 @@ public class Chat {
 	}
 	
 	public void broadCast(String msg) {
-		for(Player p : Bukkit.getOnlinePlayers()) {
+		for(Player p : Core.getInGamePlayers()) {
+			send(p, msg);
+		}
+		for(Player p : Core.getSpecs()) {
 			send(p, msg);
 		}
 	}

@@ -1,5 +1,6 @@
 package de.alpha.uhc.timer;
 
+import de.alpha.uhc.aclasses.AGame;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -70,9 +71,7 @@ public class Timer {
 	public static BukkitTask gg;
 	
 	private static BukkitTask f;
-	
-	public static boolean BungeeMode;
-	public static String BungeeServer;
+
 	public static String kick;
 	
 	public static void startCountdown() {
@@ -95,7 +94,7 @@ public class Timer {
 							@Override
 							public void run() {
 								
-								if(Bukkit.getOnlinePlayers().size() >= pc) {
+								if(Core.getTotalPlayers() >= pc) {
 									
 									for(Player all : Core.getInGamePlayers()) {
 										
@@ -105,7 +104,7 @@ public class Timer {
 											countmsg = countmsg.replace("[time]", Integer.toString(high));
 											all.sendMessage(Core.getPrefix() + countmsg);
 											TitleManager.sendTitle(all, 10, 20, 10, " ", countmsg);
-											all.playSound(all.getLocation(), Sound.NOTE_BASS, 1F, 0F);
+											all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 0F);
 											Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
 												
 												@Override
@@ -122,7 +121,7 @@ public class Timer {
 											countmsg = countmsg.replace("[time]", Integer.toString(high));
 											all.sendMessage(Core.getPrefix() + countmsg);
 											TitleManager.sendAction(all, countmsg);
-											all.playSound(all.getLocation(), Sound.NOTE_BASS, 1F, 0F);
+											all.playSound(all.getLocation(), Sound.BLOCK_NOTE_BASS, 1F, 0F);
 											Bukkit.getScheduler().scheduleSyncDelayedTask(Core.getInstance(), new Runnable() {
 												
 												@Override
@@ -137,13 +136,13 @@ public class Timer {
 											
 											a.cancel();
 											
-											if(AWorld.lobbyAsSchematic == true) {
+											if(AWorld.lobbyAsSchematic) {
 												LobbyPasteUtil.removeLobby();
 											}
 													
 											for(Player ig : Core.getInGamePlayers()) {
 												
-												if(AWorld.lobbyAsSchematic == false) {
+												if(AWorld.lobbyAsSchematic) {
 													
 													try {
 												
@@ -168,7 +167,7 @@ public class Timer {
 												}
 												b.cancel();
 												
-												all.playSound(all.getLocation(), Sound.NOTE_PIANO, 1F, 0F);
+												all.playSound(all.getLocation(), Sound.BLOCK_NOTE_PLING, 1F, 0F);
 												all.getWorld().setGameRuleValue("naturalRegeneration", "false");
 												startGracePeriod();
 												Border.border();
@@ -245,7 +244,7 @@ public class Timer {
 						
 						@Override
 						public void run() {
-							for(Player all : Bukkit.getOnlinePlayers()) {
+							for(Player all : Core.getInGamePlayers()) {
 								AScoreboard.updateInGamePvPTime(all);
 							}
 							if(gracetime % 10 == 0 && gracetime > 0) {
@@ -256,9 +255,7 @@ public class Timer {
 							}
 							
 							if(gracetime == 0) {
-								
 								e.cancel();
-								
 								Bukkit.broadcastMessage(Core.getPrefix() + end);
 								new BorderManager().set();
 								for(Player all : Core.getInGamePlayers()) {
@@ -284,18 +281,18 @@ public class Timer {
 		d = new BukkitRunnable() {
 			@Override
 			public void run() {
-				for(Player all : Bukkit.getOnlinePlayers()) {
+				for(Player all : Core.getInGamePlayers()) {
 					AScoreboard.updateInGamePvPTime(all);
 				}
 				if(prePvP % 1 == 0 && prePvP > 0) {
-					for(Player all : Bukkit.getOnlinePlayers()) {
+					for(Player all : Core.getInGamePlayers()) {
 						String a = pvpmsg.replace("[time]", Integer.toString(prePvP));
 						TitleManager.sendAction(all, Core.getPrefix() + a);
 					}
 				}
 				
 				if(prePvP == 0) {
-					for(Player all : Bukkit.getOnlinePlayers()) {
+					for(Player all : Core.getInGamePlayers()) {
 						TitleManager.sendAction(all, Core.getPrefix() + pvpstart);
 					}
 					GState.setGameState(GState.INGAME);
@@ -311,18 +308,18 @@ public class Timer {
 		dd = new BukkitRunnable() {
 			@Override
 			public void run() {
-				for(Player all : Bukkit.getOnlinePlayers()) {
+				for(Player all : Core.getInGamePlayers()) {
 					AScoreboard.updateInGamePvPTime(all);
 				}
 				if(uDM % 5 == 0 && uDM > 10) {
-					for(Player all : Bukkit.getOnlinePlayers()) {
+					for(Player all : Core.getInGamePlayers()) {
 						String a = dmmsg.replace("[time]", Integer.toString(uDM));
 						TitleManager.sendAction(all, Core.getPrefix() + a);
 					}
 				}
 				
 				if(uDM % 1 == 0 && uDM > 0 && uDM < 10) {
-					for(Player all : Bukkit.getOnlinePlayers()) {
+					for(Player all : Core.getInGamePlayers()) {
 						String a = dmmsg.replace("[time]", Integer.toString(uDM));
 						TitleManager.sendAction(all, Core.getPrefix() + a);
 					}
@@ -357,7 +354,7 @@ public class Timer {
 				Border.setSize(50);
 			}
 		}
-		for(Player all : Bukkit.getOnlinePlayers()) {
+		for(Player all : Core.getInGamePlayers()) {
 			AScoreboard.setInGamePvPTime(all);
 		}
 		GState.setGameState(GState.PREDEATHMATCH);
@@ -369,23 +366,23 @@ public class Timer {
 					public void run() {
 						
 						if(tbpvp % 5 == 0 && tbpvp > 10) {
-							for(Player all : Bukkit.getOnlinePlayers()) {
+							for(Player all : Core.getInGamePlayers()) {
 								String a = dmmsg.replace("[time]", Integer.toString(tbpvp)).replace("minutes", "seconds");
 								TitleManager.sendAction(all, Core.getPrefix() + a);
 							}
 						}
 						
 						if(tbpvp % 1 == 0 && tbpvp > 0 && tbpvp < 10) {
-							for(Player all : Bukkit.getOnlinePlayers()) {
+							for(Player all : Core.getInGamePlayers()) {
 								String a = dmmsg.replace("[time]", Integer.toString(tbpvp)).replace("minutes", "seconds");
 								TitleManager.sendAction(all, Core.getPrefix() + a);
 							}
 						}
 						
 						if(tbpvp == 0) {
-							for(Player all : Bukkit.getOnlinePlayers()) {
+							for(Player all : Core.getInGamePlayers()) {
 								GState.setGameState(GState.DEATHMATCH);
-								all.playSound(all.getLocation(), Sound.NOTE_PLING, 10F, 0);
+								all.playSound(all.getLocation(), Sound.BLOCK_NOTE_PLING, 10F, 0);
 							}
 							ee.cancel();
 						}
@@ -415,22 +412,10 @@ public class Timer {
 					endTime = endTime - 1;
 					
 					endmsg = MessageFileManager.getMSGFile().getColorString("Announcements.End");
-				} 
-				
-				else if(endTime == 0) {
-					
-					for(Player all : Bukkit.getOnlinePlayers()) {
-						if(BungeeMode == true) {
-							ByteArrayDataOutput out = ByteStreams.newDataOutput();
-							
-							out.writeUTF("Connect");
-							out.writeUTF(BungeeServer);
-							
-							all.sendPluginMessage(Core.getInstance(), "BungeeCord", out.toByteArray());
-						} else {
-							all.kickPlayer(Core.getPrefix() + kick);
-						}
-					}
+				} else if(endTime == 0) {
+                    for(Player all : Core.getInGamePlayers()) {
+                        AGame.leave(all);
+                    }					
 					f.cancel();
 					
 				}

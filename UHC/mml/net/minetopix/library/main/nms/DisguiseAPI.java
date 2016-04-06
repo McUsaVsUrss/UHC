@@ -1,3 +1,4 @@
+/*
 package net.minetopix.library.main.nms;
 
 import java.lang.reflect.Field;
@@ -53,9 +54,9 @@ public class DisguiseAPI {
 				@Override
 				public void run() {
 					for (Player receiver : Bukkit.getOnlinePlayers()) {
-
-						if (receiver == p)
+						if (receiver == p){
 							continue;
+						}
 						ReflectionUtil.sendPacket(receiver, packetPlayOutEntityDestroy);
 					}
 
@@ -66,7 +67,6 @@ public class DisguiseAPI {
 					}
 
 					for (Player receiver : Bukkit.getOnlinePlayers()) {
-
 						if (receiver == p)
 							continue;
 						ReflectionUtil.sendPacket(receiver, modifier.getPacket());
@@ -279,9 +279,11 @@ public class DisguiseAPI {
 		public void update() {
 			try {
 				
-				/*
+				*/
+/*
 				 * Update DataWatcher
-				 */
+				 *//*
+
 				
 				final Object packetPlayOutEntityMetadata = ReflectionUtil.getNmsClass("PacketPlayOutEntityMetadata")
 						.getConstructor(int.class , ReflectionUtil.getNmsClass("DataWatcher") , boolean.class)
@@ -300,9 +302,11 @@ public class DisguiseAPI {
 				
 				LivingEntity entity = this.getEntity(LivingEntity.class);
 				
-				/*
+				*/
+/*
 				 * Update equipment
-				 */
+				 *//*
+
 				PacketUtil.equipEntity(p, entity.getEquipment().getHelmet(), EquipmentSlot.HELMET, Bukkit.getOnlinePlayers().toArray(new Player[0]));
 				PacketUtil.equipEntity(p, entity.getEquipment().getChestplate(), EquipmentSlot.CHESTPLATE, Bukkit.getOnlinePlayers().toArray(new Player[0]));
 				PacketUtil.equipEntity(p, entity.getEquipment().getLeggings(), EquipmentSlot.LEGGINGS, Bukkit.getOnlinePlayers().toArray(new Player[0]));
@@ -319,3 +323,4 @@ public class DisguiseAPI {
 	}
 
 }
+*/

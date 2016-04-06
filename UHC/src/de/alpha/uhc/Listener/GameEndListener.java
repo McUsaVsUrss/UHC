@@ -28,15 +28,12 @@ public class GameEndListener implements Listener {
 	public static String kick;
 	public static String rew;
 	public static String quit;
-	public static String BungeeServer;
 	
 	private static int apc;
 	public static int opc;
 	
 	public static int reward;
 	public static int deathreward;
-	
-	public static boolean BungeeMode;
 	
 	@EventHandler
 	public void onDeath(PlayerDeathEvent e) {
@@ -81,7 +78,12 @@ public class GameEndListener implements Listener {
 		//                        -=X Scoreboard X=-
 		
 		
-		for(Player all : Bukkit.getOnlinePlayers()) {
+		for(Player all : Core.getInGamePlayers()) {
+			AScoreboard.updateInGamePlayersLiving(all);
+			AScoreboard.updateInGameSpectators(all);
+		}
+
+		for(Player all : Core.getSpecs()) {
 			AScoreboard.updateInGamePlayersLiving(all);
 			AScoreboard.updateInGameSpectators(all);
 		}
@@ -133,7 +135,11 @@ public class GameEndListener implements Listener {
 				rew = rew.replace("[Coins]", Integer.toString(reward));
 				
 				Bukkit.broadcastMessage(Core.getPrefix() + win);
-				for(Player all : Bukkit.getOnlinePlayers()) {
+				for(Player all : Core.getInGamePlayers()) {
+					TitleManager.sendTitle(all, 10, 20, 10, " ", win);
+				}
+				
+				for(Player all : Core.getSpecs()) {
 					TitleManager.sendTitle(all, 10, 20, 10, " ", win);
 				}
 				
@@ -171,22 +177,22 @@ public class GameEndListener implements Listener {
 		Core.removeInGamePlayer(p);
 		
 		if(GState.isState(GState.LOBBY)) {
-			apc = Bukkit.getOnlinePlayers().size() - 1;
+			apc = Core.getTotalPlayers() - 1;
 		} else {
-			apc = Core.getInGamePlayers().size();
+			apc = Core.getTotalPlayers();
 		}
 		
 		if(Core.getSpecs().contains(p)) {
 			Core.removeSpec(p);
 			for(Player o : Core.getSpecs()) {
-				quit = quit.replace("[PlayerCount]", "ง7["+apc+" left]");
+				quit = quit.replace("[PlayerCount]", "ยง7["+apc+" left]");
 				
 				o.sendMessage(Core.getPrefix() + quit);
 				
 				quit = MessageFileManager.getMSGFile().getColorString("Announcements.Leave");
 			}
 		} else {
-			quit = quit.replace("[PlayerCount]", "ง7["+apc+" left]");
+			quit = quit.replace("[PlayerCount]", "ยง7["+apc+" left]");
 		
 			Bukkit.broadcastMessage(Core.getPrefix() + quit);
 		
@@ -205,10 +211,15 @@ public class GameEndListener implements Listener {
 				p.getWorld().strikeLightningEffect(p.getLocation());
 			}	
 			
-			for(Player all : Bukkit.getOnlinePlayers()) {
+			for(Player all : Core.getInGamePlayers()) {
 				AScoreboard.updateInGamePlayersLiving(all);
 				AScoreboard.updateInGameSpectators(all);
 			}
+
+            for(Player all : Core.getSpecs()) {
+                AScoreboard.updateInGamePlayersLiving(all);
+                AScoreboard.updateInGameSpectators(all);
+            }
 			
 			p.setGameMode(GameMode.SURVIVAL);
 			
@@ -236,10 +247,12 @@ public class GameEndListener implements Listener {
 					rew = rew.replace("[Coins]", Integer.toString(reward));
 					
 					Bukkit.broadcastMessage(Core.getPrefix() + win);
-					for(Player all : Bukkit.getOnlinePlayers()) {
+					for(Player all : Core.getInGamePlayers()) {
 						TitleManager.sendTitle(all, 10, 20, 10, " ", win);
 					}
-					
+                    for(Player all : Core.getSpecs()) {
+                        TitleManager.sendTitle(all, 10, 20, 10, " ", win);
+                    }
 					new Stats(winner).addCoins(reward);
 					
 					
